@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/search_station_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FF8b0000"
+        android:background="@android:drawable/bottom_bar">
+
+        <TextView
+            android:id="@+id/btMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dip"
+            android:textSize="20dp"
+            android:textColor="#FFffffff"
+            android:text="@string/lb_station_top" />
+
+    </LinearLayout>
+        <TextView
+            android:id="@+id/lb_input_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dip"
+            android:textSize="20dp"
+            android:textColor="#FF000000"
+            android:text="@string/lb_input_text" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dip"
+        android:entries="@array/todofuken_list"
+        android:spinnerMode="dialog" />
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dip"
+        android:entries="路線"
+        android:spinnerMode="dialog" />
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dip"
+        android:entries="駅名"
+        android:spinnerMode="dialog" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="vertical" >
+        <Button
+            android:id="@+id/bt_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dip"
+            android:background="#FFffffff"
+            android:backgroundTint="#FF8b0000"
+            android:text="@string/bt_search"
+            android:textColor="#FFffffff" />
+    </LinearLayout>
+    <include layout="@layout/activity_footer" android:id="@+id/bottom"/>
+
+</LinearLayout>

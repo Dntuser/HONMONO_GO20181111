@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HONMONO GO</string>
+    <string name="bt_menu">メインメニュー\nに戻る</string>
+    <string name="bt_current">現在地から探す</string>
+    <string name="bt_favorite">お気に入りから選ぶ</string>
+    <string name="bt_station">駅名から探す</string>
+    <string name="lb_station_top">駅名から検索</string>
+    <string name="lb_input_text">●検索する駅を選択してください。</string>
+    <string-array name="todofuken_list">
+    <item>北海道</item>
+    <item>青森</item>
+    <item>岩手</item>
+    <item>宮城</item></string-array>
+    <string name="bt_search">検索する</string>
+</resources>
