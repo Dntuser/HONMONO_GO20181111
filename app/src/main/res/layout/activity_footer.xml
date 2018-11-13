@@ -21,6 +21,7 @@
             android:background="#FFffffff"
             android:backgroundTint="#FF8b0000"
             android:text="@string/bt_menu"
+            android:onClick="onMenuButtonClick"
             android:textColor="#FFffffff" />
     </LinearLayout>
 

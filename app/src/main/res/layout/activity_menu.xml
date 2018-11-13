@@ -18,6 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dip"
         android:layout_weight="1"
+        android:backgroundTint="#FF8b0000"
+        android:textColor="#FFffffff"
+        android:onClick="onCurrentButtonClick"
         android:text="@string/bt_current"/>
     <Button
         android:id="@+id/favorite"
@@ -25,6 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dip"
         android:layout_weight="1"
+        android:backgroundTint="#FF8b0000"
+        android:textColor="#FFffffff"
+        android:onClick="onFavoriteButtonClick"
         android:text="@string/bt_favorite"/>
     <Button
         android:id="@+id/station"
@@ -32,6 +38,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dip"
         android:layout_weight="1"
+        android:backgroundTint="#FF8b0000"
+        android:textColor="#FFffffff"
+        android:onClick="onStationButtonClick"
         android:text="@string/bt_station"/>
 
 </LinearLayout>
