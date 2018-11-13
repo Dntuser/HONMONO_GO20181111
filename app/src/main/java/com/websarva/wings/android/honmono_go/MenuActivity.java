@@ -17,9 +17,9 @@ import android.widget.Toast;
 public class MenuActivity extends AppCompatActivity {
 
     //緯度フィールド
-    private double latitude = 37.421998333;
+    private double latitude = 0;
     //経度フィールド
-    private double longitude = -122.08400000;
+    private double longitude = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +60,9 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int resuluCode, String[]permissions, int[]grantResults){
+    public void onRequestPermissionsResult(int requestCode, String[]permissions, int[]grantResults){
         //パーミッションダイアログで許可を選択
-        if(resuluCode == 1000 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if(requestCode == 1000 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             //Locationオブジェクトを取得
             LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
             //位置情報が更新された際のリスナオブジェクトを生成
@@ -79,10 +79,10 @@ public class MenuActivity extends AppCompatActivity {
         //フィールドの緯度と経度の値をもとにマップアプリと連携するURL文字列を生成
         String urlStr = "geo:" + latitude + "," + longitude;
         //URL文字列からURLオブジェクトを生成
-        Uri uri =Uri.parse(urlStr);
+        Uri uri = Uri.parse(urlStr);
         //インテントオブジェクトを用意
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        //Intent intent = new Intent(MenuActivity.this, SearchFromCurrentActivity.class);
+        //Intent intent = new Intent(MenuActivity.this, SearchResultActivity.class);
         //第二画面に送るデータ作成
         //intent.putExtra("uri", uri);
         //現在地から検索アクティビティを起動

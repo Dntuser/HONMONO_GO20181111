@@ -9,11 +9,5 @@
     <string name="lb_input_text">●検索する駅を選択してください。</string>
     <string name="lb_favorite_top">お気に入り一覧</string>
     <string name="lb_current_top">地図画面(仮)</string>
-    <string-array name="todofuken_list">
-        <item>北海道</item>
-        <item>青森</item>
-        <item>岩手</item>
-        <item>宮城</item>
-    </string-array>
     <string name="bt_search">検索する</string>
 </resources>

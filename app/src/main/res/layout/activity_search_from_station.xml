@@ -30,7 +30,21 @@
             android:textSize="20dp"
             android:textColor="#FF000000"
             android:text="@string/lb_input_text" />
-
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner1"
+        android:spinnerMode="dialog" />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner2"
+        android:spinnerMode="dialog" />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner3"
+        android:spinnerMode="dialog" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,8 +59,10 @@
             android:background="#FFffffff"
             android:backgroundTint="#FF8b0000"
             android:text="@string/bt_search"
+            android:onClick="onSearchButton"
             android:textColor="#FFffffff" />
     </LinearLayout>
+
     <include layout="@layout/activity_footer" android:id="@+id/bottom"/>
 
 </LinearLayout>
