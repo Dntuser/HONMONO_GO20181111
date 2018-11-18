@@ -9,7 +9,7 @@ import android.widget.ListView;
 public class FavoriteActivity extends AppCompatActivity {
 
     private ListView listView;
-    private SQLiteDatabase db;
+    //private SQLiteDatabase db;
 
     //private DBAdapter helper;
 
