@@ -22,6 +22,13 @@
             android:text="@string/lb_favorite_top" />
 
     </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/list_view">
+
+    </ListView>
     <include layout="@layout/activity_footer" android:id="@+id/bottom"/>
 
 </LinearLayout>
