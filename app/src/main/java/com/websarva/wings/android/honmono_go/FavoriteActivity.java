@@ -10,7 +10,8 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private ListView listView;
     private SQLiteDatabase db;
-    private DBAdapter helper;
+
+    //private DBAdapter helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
