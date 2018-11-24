@@ -23,7 +23,6 @@ public class MenuActivity extends AppCompatActivity {
     //経度フィールド
     private double longitude = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

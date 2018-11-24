@@ -3,23 +3,26 @@ package com.websarva.wings.android.honmono_go;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -29,12 +32,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest locationRequest;
-
-    private OnLocationChangedListener onLocationChangedListener = null;
-
     private int priority[] = {LocationRequest.PRIORITY_HIGH_ACCURACY, LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY,
             LocationRequest.PRIORITY_LOW_POWER, LocationRequest.PRIORITY_NO_POWER};
     private int locationPriority;
+    //緯度・経度を設定するLocationインスタンス
+    private OnLocationChangedListener onLocationChangedListener = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +67,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             locationRequest.setPriority(locationPriority);
         }
 
+        //GoogleMapオブジェクト取得
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        //Googleが提供しているサービスに対して接続するためのクライアント
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -98,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.d("debug", "permission granted");
 
             mMap = googleMap;
-            // default の LocationSource から自前のsourceに変更する
+            // 設定した緯度・経度を表示する
             mMap.setLocationSource(this);
             mMap.setMyLocationEnabled(true);
             mMap.setOnMyLocationButtonClickListener(this);
@@ -113,19 +117,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("debug", "onLocationChanged");
         if (onLocationChangedListener != null) {
             onLocationChangedListener.onLocationChanged(location);
-
             double lat = location.getLatitude();
             double lng = location.getLongitude();
-
             Log.d("debug", "location=" + lat + "," + lng);
 
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-
-            // Add a marker and move the camera
+            // カメラの追加
             LatLng newLocation = new LatLng(lat, lng);
-            mMap.addMarker(new MarkerOptions().position(newLocation).title("My Location"));
+            //mMap.addMarker(new MarkerOptions().position(newLocation).title("My Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
+            zoomMap(lat,lng);
 
+            // 円を描く
+            mMap.addCircle(new CircleOptions()
+                    .center(newLocation)
+                    .radius(500)
+                    .strokeColor(Color.RED));
         }
     }
 
@@ -155,10 +161,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("debug", "onConnectionFailed");
     }
 
+    //現在地ボタン押下時
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "onMyLocationButtonClick", Toast.LENGTH_SHORT).show();
-
         return false;
     }
 
@@ -168,8 +173,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.onLocationChangedListener = onLocationChangedListener;
     }
 
+    //無効化
     @Override
     public void deactivate() {
         this.onLocationChangedListener = null;
+    }
+
+    //ズーム
+    private void zoomMap(double latitude, double longitude){
+        // 表示する東西南北の緯度経度を設定
+        double south = latitude * (1-0.00005);
+        double west = longitude * (1-0.00005);
+        double north = latitude * (1+0.00005);
+        double east = longitude * (1+0.00005);
+
+        // LatLngBounds (LatLng southwest, LatLng northeast)
+        LatLngBounds bounds = LatLngBounds.builder()
+                .include(new LatLng(south , west))
+                .include(new LatLng(north, east))
+                .build();
+
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+
+        // static CameraUpdate.newLatLngBounds(LatLngBounds bounds, int width, int height, int padding)
+        mMap.moveCamera(CameraUpdateFactory.
+                newLatLngBounds(bounds, width, height, 0));
+
     }
 }
