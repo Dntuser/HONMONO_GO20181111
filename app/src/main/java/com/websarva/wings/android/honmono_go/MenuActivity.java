@@ -9,12 +9,22 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -50,6 +60,7 @@ public class MenuActivity extends AppCompatActivity {
             latitude = location.getLatitude();
             //引数のLocationオブジェクトから経度を取得
             longitude = location.getLongitude();
+
         }
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras){}
@@ -77,7 +88,6 @@ public class MenuActivity extends AppCompatActivity {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
         }
     }
-
     public void onCurrentButtonClick(View view){
         //フィールドの緯度と経度の値をもとにマップアプリと連携するURL文字列を生成
         //String urlStr = "geo:" + latitude + "," + longitude;

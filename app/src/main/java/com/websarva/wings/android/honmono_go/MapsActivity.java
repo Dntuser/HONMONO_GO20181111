@@ -121,7 +121,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             double lng = location.getLongitude();
             Log.d("debug", "location=" + lat + "," + lng);
 
-            // カメラの追加
+
+            // 中心地を指定した場所にする
             LatLng newLocation = new LatLng(lat, lng);
             //mMap.addMarker(new MarkerOptions().position(newLocation).title("My Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
@@ -133,6 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .radius(500)
                     .strokeColor(Color.RED));
         }
+
     }
 
     @Override

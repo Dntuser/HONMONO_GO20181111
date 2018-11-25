@@ -18,8 +18,9 @@ import java.util.ArrayList;
 
 public class SearchFromStationActivity extends AppCompatActivity implements View.OnClickListener{
 
-    String stationLon = "";
-    String stationLat = "";
+    String stationLatitude = "";
+    String stationLongitude = "";
+
     //都道府県格納用配列
     private ArrayList<Prefectures> PrefecturesList = new ArrayList<>();
     //路線の格納用配列
@@ -155,8 +156,8 @@ public class SearchFromStationActivity extends AppCompatActivity implements View
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     Station station = (Station) parent.getSelectedItem();
-                    stationLon = station.getLon();
-                    stationLat= station.getLat();
+                    stationLatitude = station.getLat();
+                    stationLongitude = station.getLon();
                 }
                 //　アイテムが選択されなかった
                 public void onNothingSelected(AdapterView<?> parent) {
@@ -222,6 +223,10 @@ public class SearchFromStationActivity extends AppCompatActivity implements View
     public void onClick(View view) {
         //インテントオブジェクトを用意
         Intent intent = new Intent(SearchFromStationActivity.this, MapsActivity.class);
+        //MapsActivityに送るデータを格納
+        intent.putExtra("stationLatitude",stationLatitude);
+        intent.putExtra("stationLongitude",stationLongitude);
+
         startActivity(intent);
     }
     public void onMenuButtonClick(View view){
