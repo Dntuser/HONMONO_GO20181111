@@ -59,7 +59,7 @@
             android:background="#FFffffff"
             android:backgroundTint="#FF8b0000"
             android:text="@string/bt_search"
-            android:onClick="onSearchButton"
+            android:onClick="onClick"
             android:textColor="#FFffffff" />
     </LinearLayout>
 
