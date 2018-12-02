@@ -2,6 +2,7 @@ package com.websarva.wings.android.honmono_go;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -14,7 +15,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
@@ -23,7 +23,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import static java.lang.Double.parseDouble;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -43,29 +48,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+
         // LocationRequest を生成して精度、インターバルを設定
         locationRequest = LocationRequest.create();
-
-        // 測位の精度、消費電力の優先度
-        locationPriority = priority[1];
-
-        if (locationPriority == priority[0]) {
-            // 位置情報の精度を優先する場合
-            locationRequest.setPriority(locationPriority);
-            locationRequest.setInterval(5000);
-            locationRequest.setFastestInterval(16);
-        } else if (locationPriority == priority[1]) {
-            // 消費電力を考慮する場合
-            locationRequest.setPriority(locationPriority);
-            locationRequest.setInterval(60000);
-            locationRequest.setFastestInterval(16);
-        } else if (locationPriority == priority[2]) {
-            // "city" level accuracy
-            locationRequest.setPriority(locationPriority);
-        } else {
-            // 外部からのトリガーでの測位のみ
-            locationRequest.setPriority(locationPriority);
-        }
 
         //GoogleMapオブジェクト取得
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -78,6 +63,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        //インテントオブジェクトを取得
+//        Intent intent = getIntent();
+//        //駅名から検索画面から渡された緯度と経度を取得
+//        String stationLatitude = intent.getStringExtra("stationLatitude");
+//        String stationLongitude = intent.getStringExtra("stationLongitude");
     }
 
     // onResumeフェーズに入ったら接続
@@ -117,14 +108,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("debug", "onLocationChanged");
         if (onLocationChangedListener != null) {
             onLocationChangedListener.onLocationChanged(location);
+
+            //Intent intent = getIntent();
             double lat = location.getLatitude();
             double lng = location.getLongitude();
-            Log.d("debug", "location=" + lat + "," + lng);
-
+//            String stationLatitude = intent.getStringExtra( "stationLatitude" );
+//            String stationLongitude = intent.getStringExtra( "stationLongitude" );
+//            Log.d("stationLatitude","駅の緯度");
+//            double staLatitude = Double.parseDouble(stationLatitude);
+//            double staLongitude = Double.parseDouble(stationLongitude);
 
             // 中心地を指定した場所にする
             LatLng newLocation = new LatLng(lat, lng);
-            //mMap.addMarker(new MarkerOptions().position(newLocation).title("My Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
             zoomMap(lat,lng);
 
@@ -133,8 +128,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .center(newLocation)
                     .radius(500)
                     .strokeColor(Color.RED));
-        }
 
+            //GooglePlaceAPI取得用の非同期タスク
+            final SearchStoreReceiver searchStoreReceiver = new SearchStoreReceiver(this);
+            //クラスSearchStoreReceiverを実行
+            searchStoreReceiver.execute(lat + "," + lng);
+        }
     }
 
     @Override
@@ -201,6 +200,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // static CameraUpdate.newLatLngBounds(LatLngBounds bounds, int width, int height, int padding)
         mMap.moveCamera(CameraUpdateFactory.
                 newLatLngBounds(bounds, width, height, 0));
+    }
+    //onPostExecuteで実行される関数
+    public void resultJSON(String result){
+        setStorePin(result);
+    }
+    public void setStorePin(String jsonDate){
+        try {
+            JSONObject jsonObject = new JSONObject(jsonDate);
+            JSONArray shopList = jsonObject.getJSONArray("results");
 
+            for (int i = 0; i < shopList.length(); i++){
+                JSONObject jsonObject_shop = shopList.getJSONObject(i);
+                JSONObject location  = jsonObject_shop.getJSONObject("geomety").getJSONObject("location");
+
+                final String shopName = jsonObject_shop.getString("name");
+                final String lat = location.getString("lat");
+                final String lng = location.getString("lng");
+
+                MarkerOptions markerOptions = new MarkerOptions();
+                //位置情報
+                markerOptions.position(new LatLng(parseDouble(lat),parseDouble(lng)));
+                //店名
+                markerOptions.title(shopName);
+                //住所
+                markerOptions.snippet(jsonObject_shop.getString("vicinity"));
+                Marker marker = mMap.addMarker(markerOptions);
+                //表示する
+                marker.showInfoWindow();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

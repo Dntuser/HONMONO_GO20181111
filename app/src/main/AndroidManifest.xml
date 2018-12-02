@@ -3,6 +3,7 @@
     package="com.websarva.wings.android.honmono_go">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -27,7 +28,6 @@
         <activity android:name=".FooterActivity" />
         <activity android:name=".SearchFromStationActivity" />
         <activity android:name=".FavoriteActivity" />
-        <activity android:name=".SearchFromCurrentActivity" />
 
         <uses-library android:name="com.google.android.maps" />
         <!--

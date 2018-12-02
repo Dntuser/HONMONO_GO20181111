@@ -11,11 +11,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class AsyncJob extends AsyncTask<String,String,String> {
+public class StationDateReceiver extends AsyncTask<String,String,String> {
     private SearchFromStationActivity _searchFromStation;
     private String fromSpinner = "";
 
-    public AsyncJob(SearchFromStationActivity searchFromStation) {
+    public StationDateReceiver(SearchFromStationActivity searchFromStation) {
         super();
         _searchFromStation = searchFromStation;
     }
@@ -70,7 +70,6 @@ public class AsyncJob extends AsyncTask<String,String,String> {
                 Log.d("路線のデータ置換後", readSt);
             }
 
-            //readSt = "{\"line\":[{\"line_cd\":\"11101\",\"line_name\":\"JR函館本線(函館～長万部)\"},{\"line_cd\":\"11102\",\"line_name\":\"JR函館本線(長万部～小樽)\"}]}";
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }catch (Exception ex) {

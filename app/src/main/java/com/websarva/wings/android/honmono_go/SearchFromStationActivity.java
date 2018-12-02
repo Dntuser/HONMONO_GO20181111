@@ -54,8 +54,8 @@ public class SearchFromStationActivity extends AppCompatActivity implements View
                 Prefectures pref = (Prefectures) parent.getSelectedItem();
                 String prefId = pref.getId();
                 String prefName = pref.getName();
-                //ここで線路一覧を取得する
-                asynctask_job("都道府県" ,prefId);
+                //ここで路線一覧を取得する
+                stationDate_receiver("都道府県" ,prefId);
             }
 
             //　アイテムが選択されなかった
@@ -64,17 +64,17 @@ public class SearchFromStationActivity extends AppCompatActivity implements View
             }
         });
 
-        findViewById(R.id.bt_search).setOnClickListener(this);
+    //    findViewById(R.id.bt_search).setOnClickListener(this);
     }
     // 非同期処理を開始する
-    private void asynctask_job(String fromSpinner,String Id){
+    private void stationDate_receiver(String fromSpinner,String Id){
         //タスクの生成は都度おこなうこと
         //AsyncTaskは１度しか実行できないので、使いまわさずに、必要な時に生成・実行させる
         //でないと、2度目に実行した際に、例外エラーが発生する
         //非同期タスクの生成
-        final AsyncJob async = new AsyncJob(this);
+        final StationDateReceiver stationDateReceiver = new StationDateReceiver(this);
         //実行
-        async.execute(fromSpinner,Id);
+        stationDateReceiver.execute(fromSpinner,Id);
     }
 
     //onPostExecuteで実行される関数
@@ -117,7 +117,7 @@ public class SearchFromStationActivity extends AppCompatActivity implements View
                     String lineId = line.getId();
                     String lineName = line.getName();
                     //ここで駅一覧を取得する
-                    asynctask_job("路線", lineId);
+                    stationDate_receiver("路線", lineId);
                 }
                 //　アイテムが選択されなかった
                 public void onNothingSelected(AdapterView<?> parent) {
@@ -220,14 +220,15 @@ public class SearchFromStationActivity extends AppCompatActivity implements View
         PrefecturesList.add(new Prefectures("46", "鹿児島県"));
         PrefecturesList.add(new Prefectures("47", "沖縄県"));
     }
-    public void onClick(View view) {
-        //インテントオブジェクトを用意
-        Intent intent = new Intent(SearchFromStationActivity.this, MapsActivity.class);
-        //MapsActivityに送るデータを格納
-        intent.putExtra("stationLatitude",stationLatitude);
-        intent.putExtra("stationLongitude",stationLongitude);
 
-        startActivity(intent);
+    public void onClick(View view) {
+
+            //インテントオブジェクトを用意
+            Intent intent = new Intent(SearchFromStationActivity.this, MapsActivity.class);
+            //緯度経度格納
+            intent.putExtra("stationLatitude",stationLatitude);
+            intent.putExtra("stationLongitude",stationLongitude);
+            startActivity(intent);
     }
     public void onMenuButtonClick(View view){
         //メインメニュー画面に戻る
