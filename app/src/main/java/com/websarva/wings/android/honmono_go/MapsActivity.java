@@ -131,8 +131,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             //GooglePlaceAPI取得用の非同期タスク
             final SearchStoreReceiver searchStoreReceiver = new SearchStoreReceiver(this);
+            //String.valueOf(lat)
+            //String.valueOf(lng)
             //クラスSearchStoreReceiverを実行
-            searchStoreReceiver.execute(lat + "," + lng);
+            searchStoreReceiver.execute(String.valueOf(lat) + "," + String.valueOf(lng));
+            Log.d("Search1","現在地:"+ String.valueOf(lat)+ "&" + String.valueOf(lng));
         }
     }
 

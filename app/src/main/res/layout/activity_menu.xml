@@ -13,6 +13,17 @@
         app:srcCompat="@drawable/logo" />
 
     <Button
+        android:id="@+id/kari"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dip"
+        android:layout_weight="1"
+        android:backgroundTint="#FF8b0000"
+        android:textColor="#FFffffff"
+        android:onClick="onKariButtonClick"
+        android:text="仮"/>
+
+    <Button
         android:id="@+id/current"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

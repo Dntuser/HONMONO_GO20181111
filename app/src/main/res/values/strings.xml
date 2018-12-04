@@ -8,8 +8,6 @@
     <string name="lb_station_top">駅名から検索</string>
     <string name="lb_input_text">●検索する駅を選択してください。</string>
     <string name="lb_favorite_top">お気に入り一覧</string>
-    <string name="lb_current_top">地図画面(仮)</string>
     <string name="bt_search">検索する</string>
-    <string name="title_activity_maps">Map</string>
     <string name="delete">削除</string>
 </resources>

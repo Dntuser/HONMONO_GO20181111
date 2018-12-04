@@ -1,6 +1,7 @@
 package com.websarva.wings.android.honmono_go;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ public class SearchStoreReceiver extends AsyncTask<String,String,String> {
     public String doInBackground(String...params){
 
         //URL作成
-        String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\" + strings[0] + \"&radius=500&key=[key]&keyword=日高屋";
+        String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\" + strings[0] + \"&radius=2000&key=AIzaSyAGeDL4DEtq8UrzKhIATMjnw_nE4AXAQmo&keyword=日高屋";
 
         //GooglePlacesAPIから取得したJSON文字列。店情報が格納されている
         String result = "";
@@ -41,7 +42,7 @@ public class SearchStoreReceiver extends AsyncTask<String,String,String> {
             //URLオブジェクトからHttpURLConnectionobjectを取得
             con = (HttpURLConnection)url.openConnection();
             //Http接続メソッドを設定
-            con.setRequestMethod("GET");
+            con.setRequestMethod("POST");
             //接続
             con.connect();
             //HttpURLConnectionnオブジェクトからレスポンスデータを取得
@@ -76,6 +77,8 @@ public class SearchStoreReceiver extends AsyncTask<String,String,String> {
     public void onPostExecute(String result){
         //JSONを解析
         _mapsActivity.resultJSON(result);
+        Log.d("Search1","渡せた？:"+ result);
+
     }
 
     //InputStreamオブジェクトを文字列に変換するメソッド

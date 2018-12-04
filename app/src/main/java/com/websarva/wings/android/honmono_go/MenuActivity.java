@@ -110,4 +110,11 @@ public class MenuActivity extends AppCompatActivity {
         //お気に入りから検索アクティビティを起動
         startActivity(intent);
     }
+    //店舗ポップアップ用仮ボタン（後で消す）
+    public void onKariButtonClick(View view){
+        //インテントオブジェクトを用意
+        Intent intent = new Intent(MenuActivity.this, StoreInformationActivity.class);
+        //お気に入りから検索アクティビティを起動
+        startActivity(intent);
+    }
 }
