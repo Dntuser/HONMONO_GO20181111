@@ -27,7 +27,8 @@ public class SearchStoreReceiver extends AsyncTask<String,String,String> {
     public String doInBackground(String...params){
 
         //URL作成
-        String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\" + strings[0] + \"&radius=2000&key=AIzaSyAGeDL4DEtq8UrzKhIATMjnw_nE4AXAQmo&keyword=日高屋";
+        //String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\" + strings[0] + \"&radius=2000&key=AIzaSyDe1BHBQPPsAqa7Gjfx7DNji_QN4ft28gM";
+        String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\" + strings[0] + \"&radius=2000&key=AIzaSyDe1BHBQPPsAqa7Gjfx7DNji_QN4ft28gM&keyword=日高屋";
 
         //GooglePlacesAPIから取得したJSON文字列。店情報が格納されている
         String result = "";
