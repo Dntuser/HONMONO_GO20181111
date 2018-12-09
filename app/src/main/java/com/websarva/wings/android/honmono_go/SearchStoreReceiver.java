@@ -24,53 +24,38 @@ public class SearchStoreReceiver extends AsyncTask<String,String,String> {
     }
 
     @Override
-    public String doInBackground(String...params){
-
-        //URL作成
-        //String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\" + strings[0] + \"&radius=2000&key=AIzaSyDe1BHBQPPsAqa7Gjfx7DNji_QN4ft28gM";
-        String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\" + strings[0] + \"&radius=2000&key=AIzaSyDe1BHBQPPsAqa7Gjfx7DNji_QN4ft28gM&keyword=日高屋";
-
+    public String doInBackground(String...value){
         //GooglePlacesAPIから取得したJSON文字列。店情報が格納されている
-        String result = "";
-
-        //上記URL接続。JSON文字列を取得
+        String readDate = "";
+        //URL作成
+        //String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + value[0] + "&radius=2000&key=AIzaSyAgt-ThKCIPn43KHFu4Bik1-LGsFI-B6j0";
+        String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + value[0] + "&radius=2000&key=";
+        Log.d("Search3","いどとけいど:"+ urlStr);
         //Http接続を行う
         HttpURLConnection con = null;
-        //Http接続のレスポンスデータを格納するInputStreamオブジェクト
-        InputStream is = null;
         try {
             URL url = new URL(urlStr);
             //URLオブジェクトからHttpURLConnectionobjectを取得
             con = (HttpURLConnection)url.openConnection();
             //Http接続メソッドを設定
             con.setRequestMethod("POST");
+            // URL接続からデータを読み取る場合はtrue
+            con.setDoInput(true);
             //接続
             con.connect();
             //HttpURLConnectionnオブジェクトからレスポンスデータを取得
-            is = con.getInputStream();
+            InputStream is = con.getInputStream();
             //レスポンスデータであるInputStreamオブジェクトを文字列に変換
-            result = is2String(is);
+            readDate = is2String(is);
         }
         catch (MalformedURLException ex){
+            ex.printStackTrace();
         }
         catch (IOException ex){
-        }
-        finally {
-            //HttpURLConnectionオブジェクトがnullでなければ解放
-            if(con != null){
-                con.disconnect();
-            }
-            //InputStreaamオブジェクトがnullでないなら開放
-            if(con != null){
-                try {
-                    is.close();
-                }
-                catch (IOException ex){
-                }
-            }
+            ex.printStackTrace();
         }
         //JSON文字列を返す
-        return result;
+        return readDate;
     }
 
     //取得したJSON文字列を解析して画面に表示
@@ -79,7 +64,6 @@ public class SearchStoreReceiver extends AsyncTask<String,String,String> {
         //JSONを解析
         _mapsActivity.resultJSON(result);
         Log.d("Search1","渡せた？:"+ result);
-
     }
 
     //InputStreamオブジェクトを文字列に変換するメソッド

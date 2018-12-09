@@ -6,75 +6,94 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_marginTop="50dp"
+        android:id="@+id/store_name"
+        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:text="●●店"
+        android:textSize="30dp"
         android:background="#FFffffff"
         android:textColor="#FF8b0000"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientaton="horizontal">
+        android:gravity="right"
+        android:orientation="horizontal" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="　　　　　　　　　　　　　　　　　　　　　"
+            android:background="#FFffffff"/>
+
+        <Button
+            android:id="@+id/bt_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#FFffffff"
+            android:backgroundTint="#FF8b0000"
+            android:text="保存"
+            android:onClick="onClick"
+            android:textColor="#FFffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_marginTop="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:text="住所"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="住所　　　"
+            android:textStyle="bold"
             android:background="#FFffffff"
             android:textColor="#FF8b0000"/>
         <TextView
-            android:layout_marginTop="50dp"
+            android:id="@+id/store_vicinity"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:text="東京都千代田区神田"
+            android:layout_height="wrap_content"
             android:background="#FFffffff"
         android:textColor="#FF8b0000"/>
     </LinearLayout>>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientaton="horizontal">
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_marginTop="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:text="電話番号"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="電話番号　"
+            android:textStyle="bold"
             android:background="#FFffffff"
             android:textColor="#FF8b0000"/>
         <TextView
-            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:text="012-3456-7890"
-            android:background="#FF8b0000"
+            android:layout_height="wrap_content"
+            android:background="#FFffffff"
             android:textColor="#FF8b0000"/>
     </LinearLayout>>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientaton="horizontal">
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_marginTop="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:text="営業時間"
-            android:background="#FF8b0000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="営業時間　"
+            android:textStyle="bold"
+            android:background="#FFffffff"
             android:textColor="#FF8b0000"/>
         <TextView
-            android:layout_marginTop="50dp"
+            android:id="@+id/store_opening_hour"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:text="営業中　9:00～22:00"
-            android:background="#FF8b0000"
+            android:layout_height="wrap_content"
+            android:background="#FFffffff"
             android:textColor="#FF8b0000"/>
-    </LinearLayout>>
-
-
     </LinearLayout>
+
+</LinearLayout>

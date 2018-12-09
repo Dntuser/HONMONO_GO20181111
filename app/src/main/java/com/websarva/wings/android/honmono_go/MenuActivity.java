@@ -29,9 +29,9 @@ import java.util.Map;
 public class MenuActivity extends AppCompatActivity {
 
     //緯度フィールド
-    private double latitude = 0;
+    private double currentLatitude = 0;
     //経度フィールド
-    private double longitude = 0;
+    private double currentLongitude = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class MenuActivity extends AppCompatActivity {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         //位置情報が更新された際のリスナオブジェクトを生成
         GPSLocationListener locationListener = new GPSLocationListener();
-        //位置情報の追跡を開始
+        //ACCESS_FINE_LOCATIONの許可が下りていない場合
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // ACCESS_FINE_LOCATIONの許可を求めるダイアログを表示。その後、リクエストコードを1000に設定
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
@@ -49,18 +49,18 @@ public class MenuActivity extends AppCompatActivity {
             //onCreateのメソッドを終了
             return;
         }
+        //位置情報の追跡開始
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
     }
-
+    //位置情報が更新された際のリスナオブジェクトのメンバクラス
     private class GPSLocationListener implements LocationListener{
 
         @Override
         public void onLocationChanged(Location location){
             //引数のLocationオブジェクトから緯度を取得
-            latitude = location.getLatitude();
+            currentLatitude = location.getLatitude();
             //引数のLocationオブジェクトから経度を取得
-            longitude = location.getLongitude();
-
+            currentLongitude = location.getLongitude();
         }
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras){}
@@ -72,6 +72,7 @@ public class MenuActivity extends AppCompatActivity {
         public void onProviderDisabled(String provider){}
     }
 
+    //パーミッションダイアログにて「許可」あるいは「許可しない」を選択したときの処理
     @Override
     public void onRequestPermissionsResult(int requestCode, String[]permissions, int[]grantResults){
         //パーミッションダイアログで許可を選択
@@ -88,16 +89,20 @@ public class MenuActivity extends AppCompatActivity {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
         }
     }
+
     public void onCurrentButtonClick(View view){
-        //フィールドの緯度と経度の値をもとにマップアプリと連携するURL文字列を生成
-        //String urlStr = "geo:" + latitude + "," + longitude;
-        //URL文字列からURLオブジェクトを生成
-        //Uri uri = Uri.parse(urlStr);
+
+        String curLat = String.valueOf(currentLatitude);
+        String curLng = String.valueOf(currentLongitude);
         //インテントオブジェクトを用意
-        Intent intent = new Intent(getApplication(), MapsActivity.class);
+        Intent intent = new Intent(MenuActivity.this, MapsActivity.class);
+        intent.putExtra("currentLatitude",curLat);
+        intent.putExtra("currentLongitude",curLng);
+        Log.d("Search1","ここだよ:"+ curLat+ "&" +curLng);
         //現在地から検索アクティビティを起動
         startActivity(intent);
     }
+
     public void onFavoriteButtonClick(View view){
         //インテントオブジェクトを用意
         Intent intent = new Intent(MenuActivity.this, FavoriteActivity.class);
@@ -110,11 +115,11 @@ public class MenuActivity extends AppCompatActivity {
         //お気に入りから検索アクティビティを起動
         startActivity(intent);
     }
+
     //店舗ポップアップ用仮ボタン（後で消す）
     public void onKariButtonClick(View view){
         //インテントオブジェクトを用意
         Intent intent = new Intent(MenuActivity.this, StoreInformationActivity.class);
-        //お気に入りから検索アクティビティを起動
         startActivity(intent);
     }
 }

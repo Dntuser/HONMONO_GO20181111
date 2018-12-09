@@ -1,27 +1,17 @@
 package com.websarva.wings.android.honmono_go;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class FavoriteActivity extends AppCompatActivity {
 
     private ListView listView;
     private SQLiteDatabase db;
-    private DBAdapter helper;
+    private DatabaseHelper helper;
     //lvStore.setOnItemClickListener(new ListItemClickListener());
 
     @Override
@@ -38,7 +28,7 @@ public class FavoriteActivity extends AppCompatActivity {
 //    private void readDate(){
 //
 //        if(helper == null){
-//            helper == new DBAdapter(getApplicationContext());
+//            helper == new DatabaseHelper(getApplicationContext());
 //        }
 //        if (db == null){
 //            db == helper.getReadableDatebase();
