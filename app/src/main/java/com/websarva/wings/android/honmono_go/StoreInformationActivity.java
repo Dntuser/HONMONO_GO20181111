@@ -17,8 +17,8 @@ public class StoreInformationActivity extends AppCompatActivity {
     private String store_openingHours;
     private String storeLat;
     private String storeLng;
-    private SQLiteDatabase db;
-    private DatabaseHelper helper;
+//    private SQLiteDatabase db;
+//    private DatabaseHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +57,8 @@ private class InsertListener implements View.OnClickListener{
         @Override
         public void onClick(View view){
 
-            if (helper == null){
-                helper = new DatabaseHelper(getApplicationContext());
-            }
-            if (db == null){
-                db = helper.getWritableDatabase();
-            }
+            DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
+            SQLiteDatabase db = helper.getWritableDatabase();
             String storeName = store_name;
             String placeId = store_place_id;
             String lat = storeLat;
@@ -77,6 +73,10 @@ private class InsertListener implements View.OnClickListener{
         values.put("place_id",placeId);
         values.put("lat", lat);
         values.put("lng", lng);
+        try {
         db.insert("StoreTable",null,values);
+        } finally {
+            db.close();
+        }
     }
 }

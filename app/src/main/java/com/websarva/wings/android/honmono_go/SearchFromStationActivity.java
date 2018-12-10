@@ -225,9 +225,12 @@ public class SearchFromStationActivity extends AppCompatActivity implements View
 
             //インテントオブジェクトを用意
             Intent intent = new Intent(SearchFromStationActivity.this, MapsActivity.class);
+            String stationLat = String.valueOf(stationLatitude);
+            String stationLng = String.valueOf(stationLongitude);
+
             //緯度経度格納
-            intent.putExtra("stationLatitude",stationLatitude);
-            intent.putExtra("stationLongitude",stationLongitude);
+            intent.putExtra("currentLatitude",stationLat);
+            intent.putExtra("currentLatitude",stationLng);
             startActivity(intent);
     }
     public void onMenuButtonClick(View view){

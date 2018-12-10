@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private final static int DB_VERSION = 2;
+    private final static int DB_VERSION = 1;
 
     private final static String DB_NAME = "HONMONO_GO.db";
     private final static String DB_TABLE = "StoreTable";
@@ -19,11 +19,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //テーブル作成
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DB_TABLE + " (" +
-                    COL_ID + " INTEGER PRIMARY KEY, " +
+                    COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COL_STORENAME + " TEXT, " +
-                    COL_PLACEID + "TEXT, " +
-                    COL_LAT + "TEXT, " +
-                    COL_LNG + "TEXT)";
+                    COL_PLACEID + " TEXT, " +
+                    COL_LAT + " TEXT, " +
+                    COL_LNG + " TEXT)";
 
     //テーブルが存在しない場合でもエラーにならない
     private static final String SQL_DELETE_ENTRIES =
@@ -35,16 +35,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        db.execSQL(
-                SQL_CREATE_ENTRIES
-        );
+        db.execSQL(SQL_CREATE_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db,int oldVersion,int newVersion){
-        db.execSQL(
-                SQL_DELETE_ENTRIES
-        );
+        db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
     }
 

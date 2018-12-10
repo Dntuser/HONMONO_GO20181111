@@ -94,6 +94,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String lat = intent.getStringExtra("currentLatitude");
         String lng = intent.getStringExtra("currentLongitude");
 
+        //駅名から検索画面から渡された緯度と経度を取得
+//        String lat = intent.getStringExtra("stationLatitude");
+//        String lng = intent.getStringExtra("stationLatitude");
+
         // 中心地を指定した場所にする
         LatLng newLocation = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
         Log.d("Search1","中心:"+ newLocation);
