@@ -74,7 +74,7 @@ private class InsertListener implements View.OnClickListener{
         values.put("lat", lat);
         values.put("lng", lng);
         try {
-        db.insert("StoreTable",null,values);
+        db.insert("storeTable",null,values);
         } finally {
             db.close();
         }

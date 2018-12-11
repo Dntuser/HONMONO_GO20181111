@@ -13,14 +13,12 @@
         android:background="@android:drawable/bottom_bar">
 
         <TextView
-            android:id="@+id/btMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="4dip"
             android:textSize="20dp"
             android:textColor="#FFffffff"
             android:text="@string/lb_favorite_top" />
-
     </LinearLayout>
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,10 +29,11 @@
         tools:context=".FavoriteSearch">
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/list_view">
     </ListView>
     </LinearLayout>
+    <!--
     <include layout="@layout/activity_footer" android:id="@+id/bottom"/>
-
+-->
 </LinearLayout>
