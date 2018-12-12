@@ -1,30 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/store_name"
-        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="●●店"
-        android:textSize="30dp"
+        android:layout_marginTop="40dp"
         android:background="#FFffffff"
-        android:textColor="#FF8b0000"/>
+        android:text="●●店"
+        android:textColor="#FF8b0000"
+        android:textSize="30dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/star1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="false"
+            android:src="@drawable/star1" />
+        <ImageView
+            android:id="@+id/star12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="false"
+            android:src="@drawable/star2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="　　　　　　　　　　　　　　　　　　　　　"
-            android:background="#FFffffff"/>
+            android:background="#FFffffff"
+            android:text="　　　　　　　　　　　　　　　　　　　　　" />
 
         <Button
             android:id="@+id/bt_insert"
@@ -32,8 +52,8 @@
             android:layout_height="match_parent"
             android:background="#FFffffff"
             android:backgroundTint="#FF8b0000"
-            android:text="保存"
             android:onClick="onClick"
+            android:text="保存"
             android:textColor="#FFffffff" />
     </LinearLayout>
 
@@ -45,17 +65,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="住所　　　"
-            android:textStyle="bold"
             android:background="#FFffffff"
-            android:textColor="#FF8b0000"/>
+            android:text="住所　　　"
+            android:textColor="#FF8b0000"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/store_vicinity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFffffff"
-        android:textColor="#FF8b0000"/>
-    </LinearLayout>>
+            android:textColor="#FF8b0000" />
+    </LinearLayout>
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,16 +87,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="電話番号　"
-            android:textStyle="bold"
             android:background="#FFffffff"
-            android:textColor="#FF8b0000"/>
+            android:text="電話番号　"
+            android:textColor="#FF8b0000"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFffffff"
-            android:textColor="#FF8b0000"/>
-    </LinearLayout>>
+            android:textColor="#FF8b0000" />
+    </LinearLayout>
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,16 +108,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="営業時間　"
-            android:textStyle="bold"
             android:background="#FFffffff"
-            android:textColor="#FF8b0000"/>
+            android:text="営業時間　"
+            android:textColor="#FF8b0000"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/store_opening_hour"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFffffff"
-            android:textColor="#FF8b0000"/>
+            android:textColor="#FF8b0000" />
     </LinearLayout>
 
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class StoreInformationActivity extends AppCompatActivity {
@@ -52,6 +53,14 @@ public class StoreInformationActivity extends AppCompatActivity {
         Button insertButton = findViewById(R.id.bt_insert);
         InsertListener insertListener = new InsertListener();
         insertButton.setOnClickListener(insertListener);
+
+
+        //TODO
+        //二つのロゴを登録するXML作成
+        //蒸気を呼び出すようのXML用意
+        ImageView view = findViewById(R.id.star1);
+        view.setSelected(true); // -> something_selected.pngに切り替わる
+        view.setSelected(false); // -> something_default.pngに切り替わる
 }
 private class InsertListener implements View.OnClickListener{
         @Override

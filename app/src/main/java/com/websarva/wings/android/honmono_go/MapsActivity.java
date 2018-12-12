@@ -95,26 +95,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String lng = intent.getStringExtra("currentLongitude");
 
         //駅名から検索画面から渡された緯度と経度を取得
-//        String lat = intent.getStringExtra("stationLatitude");
-//        String lng = intent.getStringExtra("stationLatitude");
+        String lat_s = intent.getStringExtra("stationLatitude");
+        String lng_s = intent.getStringExtra("stationLongitude");
 
-        // 中心地を指定した場所にする
-        LatLng newLocation = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
-        Log.d("Search1","中心:"+ newLocation);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
-        zoomMap(Double.parseDouble(lat),Double.parseDouble(lng));
+        //画面パラメータ：1現在地,2お気に入り,3駅名
+        int activity_param = intent.getIntExtra("page_param", 0);
 
-        // 円を描く
-        mMap.addCircle(new CircleOptions()
-                .center(newLocation)
-                .radius(500)
-                .strokeColor(Color.RED));
+        //画面ごとの表示処理
+        switch (activity_param) {
+            //現在地
+            case 1:
+            // 中心地を指定した場所にする
+            LatLng newLocation = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+            Log.d("Search1", "中心:" + newLocation);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
+            zoomMap(Double.parseDouble(lat), Double.parseDouble(lng));
+            // 円を描く
+            mMap.addCircle(new CircleOptions()
+                    .center(newLocation)
+                    .radius(500)
+                    .strokeColor(Color.RED));
+            //GooglePlaceAPI取得用の非同期タスク
+            final SearchStoreReceiver searchStoreReceiver = new SearchStoreReceiver(this);
+            //クラスSearchStoreReceiverを実行
+            searchStoreReceiver.execute(lat + "," + lng);
+            Log.d("Search1", "現在地:" + lat + "&" + lng);
+            break;
 
-        //GooglePlaceAPI取得用の非同期タスク
-        final SearchStoreReceiver searchStoreReceiver = new SearchStoreReceiver(this);
-        //クラスSearchStoreReceiverを実行
-         searchStoreReceiver.execute(lat + "," + lng);
-        Log.d("Search1","現在地:"+ lat+ "&" + lng);
+            //駅名
+            case 3:
+                // 中心地を指定した駅の場所にする
+                LatLng stationLocation = new LatLng(Double.parseDouble(lat_s), Double.parseDouble(lng_s));
+                Log.d("Search1", "中心:" + stationLocation);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(stationLocation));
+                zoomMap(Double.parseDouble(lat_s), Double.parseDouble(lng_s));
+                // 円を描く
+                mMap.addCircle(new CircleOptions()
+                        .center(stationLocation)
+                        .radius(500)
+                        .strokeColor(Color.RED));
+                Log.d("Search1", "えきのえん:" + lat_s + "&" + lng_s);
+                //GooglePlaceAPI取得用の非同期タスク
+                final SearchStoreReceiver searchStoreReceiver_s = new SearchStoreReceiver(this);
+                //クラスSearchStoreReceiverを実行
+                searchStoreReceiver_s.execute(lat_s + "," + lng_s);
+                Log.d("Search1", "えき:" + lat_s + "&" + lng_s);
+                break;
+        }
     }
 
     @Override
@@ -218,57 +245,60 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //条件に一致する場所にピンを立てる
-    public void setStorePin(String jsonDate){
-        try {
-            JSONObject jsonObject = new JSONObject(jsonDate);
-            JSONArray shopList = jsonObject.getJSONArray("results");
+    public void setStorePin(String jsonData) {
+        //でない
+        if (jsonData == null) {
+            Toast.makeText(MapsActivity.this, "店舗がありません", Toast.LENGTH_LONG).show();
+        } else {
+            try {
+                JSONObject jsonObject = new JSONObject(jsonData);
+                JSONArray shopList = jsonObject.getJSONArray("results");
 
-            for (int i = 0; i < shopList.length(); i++){
-                JSONObject jsonObject_store = shopList.getJSONObject(i);
-                JSONObject location  = jsonObject_store.getJSONObject("geometry").getJSONObject("location");
-                JSONObject openingHours = jsonObject_store.getJSONObject("opening_hours");
+                for (int i = 0; i < shopList.length(); i++) {
+                    JSONObject jsonObject_store = shopList.getJSONObject(i);
+                    JSONObject location = jsonObject_store.getJSONObject("geometry").getJSONObject("location");
+                    JSONObject openingHours = jsonObject_store.getJSONObject("opening_hours");
 
-                //店舗情報に表示するデータ
-                final String store_name = jsonObject_store.getString("name");
-                final String store_vicinity = jsonObject_store.getString("vicinity");
-                final String store_place_id = jsonObject_store.getString("place_id");
-                final String store_openNow = openingHours.getString("open_now");
-                final String storeLat = location.getString("lat");
-                final String storeLng = location.getString("lng");
+                    //店舗情報に表示するデータ
+                    final String store_name = jsonObject_store.getString("name");
+                    final String store_vicinity = jsonObject_store.getString("vicinity");
+                    final String store_place_id = jsonObject_store.getString("place_id");
+                    final String store_openNow = openingHours.getString("open_now");
+                    final String storeLat = location.getString("lat");
+                    final String storeLng = location.getString("lng");
 
-                //マーカーインスタンス生成
-                MarkerOptions markerOptions = new MarkerOptions();
-                //店の位置(マーカーを表示する位置)
-                markerOptions.position(new LatLng(Double.parseDouble(storeLat),Double.parseDouble(storeLng)));
-                mMap.addMarker(markerOptions);
-                //表示する
-                // marker.showInfoWindow();
-                Log.d("Search1","店情報:"+ i);
+                    //マーカーインスタンス生成
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    //店の位置(マーカーを表示する位置)
+                    markerOptions.position(new LatLng(Double.parseDouble(storeLat), Double.parseDouble(storeLng)));
+                    mMap.addMarker(markerOptions);
+                    //表示する
+                    // marker.showInfoWindow();
+                    Log.d("Search1", "店情報:" + i);
 
-                //マーカータップ時のイベントハンドラ取得
-                mMap.setOnMarkerClickListener(new OnMarkerClickListener(){
+                    //マーカータップ時のイベントハンドラ取得
+                    mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
 
-                    //マーカータップしたら、店舗情報をポップアップで表示する
-                    @Override
-                    public boolean onMarkerClick(Marker marker){
-                        Intent intent = new Intent(MapsActivity.this,StoreInformationActivity.class);
-                        intent.putExtra("store_name",store_name);
-                        intent.putExtra("store_vicinity",store_vicinity);
-                        intent.putExtra("store_place_id",store_place_id);
-                        intent.putExtra("store_openingHours",store_openNow);
-                        intent.putExtra("storeLat",storeLat);
-                        intent.putExtra("storeLng",storeLng);
+                        //マーカータップしたら、店舗情報をポップアップで表示する
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            Intent intent = new Intent(MapsActivity.this, StoreInformationActivity.class);
+                            intent.putExtra("store_name", store_name);
+                            intent.putExtra("store_vicinity", store_vicinity);
+                            intent.putExtra("store_place_id", store_place_id);
+                            intent.putExtra("store_openingHours", store_openNow);
+                            intent.putExtra("storeLat", storeLat);
+                            intent.putExtra("storeLng", storeLng);
 
-                        startActivity(intent);
-                        Toast.makeText(getApplicationContext(), "マーカータップ", Toast.LENGTH_LONG).show();
-                        return false;
-                    }
-                });
+                            startActivity(intent);
+                            Toast.makeText(getApplicationContext(), "マーカータップ", Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+                    });
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
-
-
     }
 }

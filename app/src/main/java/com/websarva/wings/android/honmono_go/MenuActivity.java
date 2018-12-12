@@ -98,6 +98,7 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(MenuActivity.this, MapsActivity.class);
         intent.putExtra("currentLatitude",curLat);
         intent.putExtra("currentLongitude",curLng);
+        intent.putExtra("page_param",1);
         Log.d("Search1","ここだよ:"+ curLat+ "&" +curLng);
         //現在地から検索アクティビティを起動
         startActivity(intent);
@@ -113,13 +114,6 @@ public class MenuActivity extends AppCompatActivity {
         //インテントオブジェクトを用意
         Intent intent = new Intent(MenuActivity.this, SearchFromStationActivity.class);
         //お気に入りから検索アクティビティを起動
-        startActivity(intent);
-    }
-
-    //店舗ポップアップ用仮ボタン（後で消す）
-    public void onKariButtonClick(View view){
-        //インテントオブジェクトを用意
-        Intent intent = new Intent(MenuActivity.this, StoreInformationActivity.class);
         startActivity(intent);
     }
 }

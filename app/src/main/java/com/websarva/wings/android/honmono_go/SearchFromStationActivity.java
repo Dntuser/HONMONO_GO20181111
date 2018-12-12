@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -222,16 +223,23 @@ public class SearchFromStationActivity extends AppCompatActivity implements View
     }
 
     public void onClick(View view) {
-
+        //駅名まで選択されているかチェック
+        Spinner spinnerPref = findViewById(R.id.spinner1);
+        if (spinnerPref.getSelectedItemPosition()==0){
+            Toast.makeText(this, "駅が選択されていません", Toast.LENGTH_SHORT).show();
+        }else {
             //インテントオブジェクトを用意
             Intent intent = new Intent(SearchFromStationActivity.this, MapsActivity.class);
             String stationLat = String.valueOf(stationLatitude);
             String stationLng = String.valueOf(stationLongitude);
 
             //緯度経度格納
-            intent.putExtra("currentLatitude",stationLat);
-            intent.putExtra("currentLatitude",stationLng);
+            intent.putExtra("stationLatitude", stationLat);
+            intent.putExtra("stationLongitude", stationLng);
+            intent.putExtra("page_param", 3);
+            Log.d("Search1", "送ります:" + stationLat + "&" + stationLng);
             startActivity(intent);
+        }
     }
     public void onMenuButtonClick(View view){
         //メインメニュー画面に戻る
