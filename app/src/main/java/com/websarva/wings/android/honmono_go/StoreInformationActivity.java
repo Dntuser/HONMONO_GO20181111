@@ -26,8 +26,6 @@ public class StoreInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_information);
 
-
-
         Intent intent = getIntent();
         store_name = intent.getStringExtra("store_name");
         store_vicinity = intent.getStringExtra("store_vicinity");
@@ -54,17 +52,15 @@ public class StoreInformationActivity extends AppCompatActivity {
         InsertListener insertListener = new InsertListener();
         insertButton.setOnClickListener(insertListener);
 
+        ImageView view = findViewById(R.id.select_button);
 
-        //TODO
-        //二つのロゴを登録するXML作成
-        //蒸気を呼び出すようのXML用意
-        ImageView view = findViewById(R.id.star1);
-        view.setSelected(true); // -> something_selected.pngに切り替わる
-        view.setSelected(false); // -> something_default.pngに切り替わる
 }
 private class InsertListener implements View.OnClickListener{
         @Override
         public void onClick(View view){
+
+            view.setSelected(true); // -> 黄色の星に切り替わる
+            view.setSelected(false); // -> 無色の星に切り替わる
 
             DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
             SQLiteDatabase db = helper.getWritableDatabase();

@@ -6,6 +6,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -24,10 +25,10 @@ public class FavoriteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
+        RecyclerView recycleview = findViewById(R.id.fragment_list);
 
-        Intent intent = getIntent();
-        //画面品Listview
-        listView = findViewById(R.id.list_view);
+
+        //Intent intent = getIntent();
         readData();
     }
     private void readData(){

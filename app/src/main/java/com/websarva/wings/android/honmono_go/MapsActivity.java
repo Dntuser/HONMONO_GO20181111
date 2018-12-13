@@ -271,10 +271,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     MarkerOptions markerOptions = new MarkerOptions();
                     //店の位置(マーカーを表示する位置)
                     markerOptions.position(new LatLng(Double.parseDouble(storeLat), Double.parseDouble(storeLng)));
-                    mMap.addMarker(markerOptions);
+                    Marker marker = mMap.addMarker(markerOptions);
                     //表示する
-                    // marker.showInfoWindow();
-                    Log.d("Search1", "店情報:" + i);
+                     marker.showInfoWindow();
+                    Log.d("Search1", "店情報:" + i  + store_name)  ;
 
                     //マーカータップ時のイベントハンドラ取得
                     mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
