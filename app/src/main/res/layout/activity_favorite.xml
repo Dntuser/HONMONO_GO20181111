@@ -21,9 +21,17 @@
             android:text="@string/lb_favorite_top" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <!--
+        <fragment
+            android:id="@+id/fragmentFavoriteList"
+            android:name="com.websarva.wings.android.honmono_go.FavoriteListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+ -->
 
-</LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lvFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        </LinearLayout>

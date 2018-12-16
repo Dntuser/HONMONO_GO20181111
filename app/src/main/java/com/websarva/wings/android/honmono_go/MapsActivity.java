@@ -246,9 +246,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //条件に一致する場所にピンを立てる
     public void setStorePin(String jsonData) {
-        //でない
-        if (jsonData == null) {
-            Toast.makeText(MapsActivity.this, "店舗がありません", Toast.LENGTH_LONG).show();
+
+        if (jsonData.contains("ZERO_RESULTS")) {
+            Toast.makeText(MapsActivity.this, "500m範囲以内に\n日高屋がありません。", Toast.LENGTH_LONG).show();
         } else {
             try {
                 JSONObject jsonObject = new JSONObject(jsonData);
@@ -291,7 +291,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             intent.putExtra("storeLng", storeLng);
 
                             startActivity(intent);
-                            Toast.makeText(getApplicationContext(), "マーカータップ", Toast.LENGTH_LONG).show();
                             return false;
                         }
                     });
