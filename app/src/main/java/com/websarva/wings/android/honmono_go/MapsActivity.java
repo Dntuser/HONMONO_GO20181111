@@ -267,6 +267,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     final String storeLat = location.getString("lat");
                     final String storeLng = location.getString("lng");
 
+
+                    //GooglePlaceAPI取得用の非同期タスク
+                    final StoreInfoReceiver storeInfoReceiver = new StoreInfoReceiver(this);
+                    //クラスStoreInfoReceiverを実行
+                    storeInfoReceiver.execute(store_place_id);
+                    Log.d("Search1", "プレイスID:" + store_place_id);
+
+
                     //マーカーインスタンス生成
                     MarkerOptions markerOptions = new MarkerOptions();
                     //店の位置(マーカーを表示する位置)

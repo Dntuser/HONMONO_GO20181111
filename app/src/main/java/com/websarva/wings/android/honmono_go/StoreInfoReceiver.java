@@ -14,11 +14,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class SearchStoreReceiver extends AsyncTask<String,String,String> {
+public class StoreInfoReceiver extends AsyncTask<String,String,String> {
 
     private MapsActivity _mapsActivity;
     //コンストラクタ、引数をフィールドに格納
-    public SearchStoreReceiver(MapsActivity mapsActivity) {
+    public StoreInfoReceiver(MapsActivity mapsActivity) {
         super();
         _mapsActivity = mapsActivity;
     }
@@ -28,9 +28,8 @@ public class SearchStoreReceiver extends AsyncTask<String,String,String> {
         //GooglePlacesAPIから取得したJSON文字列。店情報が格納されている
         String readDate = "";
         //URL作成
-        //String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + value[0] + "&radius=2000&key=AIzaSyAgt-ThKCIPn43KHFu4Bik1-LGsFI-B6j0";
-        String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + value[0] + "&radius=500&key=AIzaSyAgt-ThKCIPn43KHFu4Bik1-LGsFI-B6j0&keyword=日高屋";
-        Log.d("Search3","いどとけいど:"+ urlStr);
+        String urlStr = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + value[0] + "&=name,rating,formatted_phone_number&language=ja&key=";
+        Log.d("Search3","URL:"+ urlStr);
         //Http接続を行う
         HttpURLConnection con = null;
         try {
@@ -63,7 +62,7 @@ public class SearchStoreReceiver extends AsyncTask<String,String,String> {
     public void onPostExecute(String result){
         //JSONを解析
         _mapsActivity.resultJSON(result);
-        Log.d("Search1","渡せた？:"+ result);
+        Log.d("Search1","けっか:"+ result);
     }
 
     //InputStreamオブジェクトを文字列に変換するメソッド
