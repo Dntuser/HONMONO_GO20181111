@@ -51,12 +51,27 @@ public class StoreInformationActivity extends AppCompatActivity {
         insertButton.setOnClickListener(insertListener);
 
         //☆と★
-        ImageView view = findViewById(R.id.select_button);
+        boolStar(store_place_id);
     }
+
     //onPostExecuteで実行される関数
     public void resultJSON(String result){
         displayStoreInfo(result);
         Log.d("Search1", "みせけっか:" + result);
+    }
+    //☆と★
+    public void boolStar(String placeId) {
+        ImageView view = findViewById(R.id.select_button);
+        DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String sqlselect = "select store_name, place_id, lat, lng from storeTable where place_id ='" + placeId + "'";
+        Cursor cursor = db.rawQuery(sqlselect, null);
+        boolean next = cursor.moveToFirst();
+        if (next) {
+            view.setSelected(true); // -> 黄色の星に切り替わる
+        } else {
+            view.setSelected(false); // -> 無色の星に切り替わる
+        }
     }
 
     //取得したJSONから店情報をパース
@@ -102,9 +117,6 @@ public class StoreInformationActivity extends AppCompatActivity {
         @Override
         public void onClick(View view){
 
-            view.setSelected(true); // -> 黄色の星に切り替わる
-            view.setSelected(false); // -> 無色の星に切り替わる
-
             DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
             SQLiteDatabase db = helper.getWritableDatabase();
             String storeName = Name;
@@ -122,8 +134,8 @@ public class StoreInformationActivity extends AppCompatActivity {
                 Toast.makeText(StoreInformationActivity.this, "登録済店舗", Toast.LENGTH_LONG).show();
                 finish();
             } else {
-            insertData(db, storeName, placeId, lat, lng);
-            finish();
+                insertData(db, storeName, placeId, lat, lng);
+                finish();
             }
         }
     }
