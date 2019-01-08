@@ -9,22 +9,28 @@
         android:id="@+id/search_station_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:drawable/bottom_bar"
         android:backgroundTint="#FF8b0000"
-        android:background="@android:drawable/bottom_bar">
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/bottom"
+            layout="@layout/activity_header" />
 
         <TextView
             android:id="@+id/btMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dip"
             android:layout_marginTop="4dip"
-            android:textSize="20dp"
+            android:text="@string/lb_station_top"
             android:textColor="#FFffffff"
-            android:text="@string/lb_station_top" />
-
+            android:textSize="20dp" />
     </LinearLayout>
+
         <TextView
             android:id="@+id/lb_input_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dip"
             android:textSize="20dp"
@@ -61,7 +67,5 @@
             android:onClick="onClick"
             android:textColor="#FFffffff" />
     </LinearLayout>
-
-    <include layout="@layout/activity_footer" android:id="@+id/bottom"/>
 
 </LinearLayout>

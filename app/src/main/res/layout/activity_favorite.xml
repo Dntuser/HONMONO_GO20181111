@@ -11,23 +11,18 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#FF8b0000"
         android:background="@android:drawable/bottom_bar">
-
+        <include
+            android:id="@+id/bottom"
+            layout="@layout/activity_header" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dip"
             android:layout_marginTop="4dip"
             android:textSize="20dp"
             android:textColor="#FFffffff"
             android:text="@string/lb_favorite_top" />
     </LinearLayout>
-
-    <!--
-        <fragment
-            android:id="@+id/fragmentFavoriteList"
-            android:name="com.websarva.wings.android.honmono_go.FavoriteListFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
- -->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lvFavorite"

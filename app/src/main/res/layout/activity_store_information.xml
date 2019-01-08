@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="#FFffffff"
-        android:text="●●店"
         android:textColor="#FF8b0000"
         android:textSize="30dp" />
 
@@ -87,13 +86,12 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/store_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFffffff"
             android:textColor="#FF8b0000" />
     </LinearLayout>
-    >
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,13 +104,28 @@
             android:text="営業時間　"
             android:textColor="#FF8b0000"
             android:textStyle="bold" />
-
         <TextView
             android:id="@+id/store_opening_hour"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFffffff"
             android:textColor="#FF8b0000" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#FFffffff"
+            android:text="　　　　　　　　　　" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:backgroundTint="#FF8b0000"
+            android:onClick="onFinishButtonClick"
+            android:text="閉じる"
+            android:textColor="#FFffffff" />
     </LinearLayout>
 
 </LinearLayout>

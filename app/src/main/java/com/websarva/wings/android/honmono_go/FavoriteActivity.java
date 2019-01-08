@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,6 @@ import java.util.Map;
 
 public class FavoriteActivity extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +36,10 @@ public class FavoriteActivity extends AppCompatActivity {
         RecyclerView lvFavorite = findViewById(R.id.lvFavorite);
         LinearLayoutManager layout = new LinearLayoutManager(FavoriteActivity.this);
         lvFavorite.setLayoutManager(layout);
-        RecyclerListAdapter adapter = new RecyclerListAdapter(this,createStoreList());
+        RecyclerListAdapter adapter = new RecyclerListAdapter(this, createStoreList());
         lvFavorite.setAdapter(adapter);
         //区切り線用
-        DividerItemDecoration decorator = new DividerItemDecoration(FavoriteActivity.this,layout.getOrientation());
+        DividerItemDecoration decorator = new DividerItemDecoration(FavoriteActivity.this, layout.getOrientation());
         lvFavorite.addItemDecoration(decorator);
     }
 
@@ -50,23 +49,23 @@ public class FavoriteActivity extends AppCompatActivity {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         // レコードの件数を確認
-        long recordCount = DatabaseUtils.queryNumEntries(db,"StoreTable");
-
+        long recordCount = DatabaseUtils.queryNumEntries(db,"storeTable");
         // レコードが存在しない場合
         if (recordCount == 0){
-            Toast.makeText(FavoriteActivity.this,"お気に入りが登録されていません",Toast.LENGTH_SHORT).show();
+            Log.d("Search3","レコードカウント!:"+ recordCount);
+            Toast.makeText(FavoriteActivity.this,"お気に入り登録されている\n店舗情報がありません。",Toast.LENGTH_SHORT).show();
             return null;
         }
         //1件以上
         //SQLの実行
         Cursor cursor = db.query(
-                "StoreTable",
+                "storeTable",
                 new String[]{"store_name","place_id","lat","lng"},
                 null,
                 null,
                 null,
                 null,
-                null
+                "_id"+" DESC"
         );
         cursor.moveToFirst();
 
@@ -91,31 +90,15 @@ public class FavoriteActivity extends AppCompatActivity {
         }
         return data;
     }
-    //データの中身(おためし)
-//    private List<Map<String,String>>createStoreList(){
-//        List<Map<String,String>>favoriteList = new ArrayList<>();
-//        Map<String,String>favorite = new HashMap<>();
-//        favorite.put("name","からあげ");
-//        favorite.put("price","200円");
-//        favoriteList.add(favorite);
-//        favorite = new HashMap<>();
-//        favorite.put("name","ハンバーグ");
-//        favorite.put("price","300円");
-//        favoriteList.add(favorite);
-//        return favoriteList;
-//    }
-
 
     //各アイテム(今回ならrow.xms)のレイアウトに合わせて作成する(今回ならTextView部分)
     private class RecyclerListViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView _tvStoreName;
-        private TextView _linerLayout;
+        public TextView _tvStoreName;
         //コンストラクタ
         public RecyclerListViewHolder(View itemView) {
             super(itemView);
             _tvStoreName = itemView.findViewById(R.id.tvStoreName);
-            _linerLayout = itemView.findViewById(R.id.linerLayout);
         }
     }
 
@@ -129,12 +112,8 @@ public class FavoriteActivity extends AppCompatActivity {
         }
         @Override
         public RecyclerListViewHolder onCreateViewHolder(ViewGroup parent,int viewType){
-            //レイアウトインフレーターを取得
-            LayoutInflater inflater = LayoutInflater.from(FavoriteActivity.this);
-            //row.xmlをインフレートし、1行分の画面部品とする
-            View view = inflater.inflate(R.layout.row,parent,false);
-            //ビューホルダオブジェクトを生成
-            RecyclerListViewHolder holder = new RecyclerListViewHolder(view);
+            View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.row, parent,false);
+            RecyclerListViewHolder holder = new RecyclerListViewHolder(inflate);
             return holder;
         }
 
@@ -144,7 +123,6 @@ public class FavoriteActivity extends AppCompatActivity {
         public void onBindViewHolder(RecyclerListViewHolder holder,int position){
             //リストデータから該当1行分のデータを取得
             holder._tvStoreName.setText(_listData.get(position).getStoreName());
-            holder._linerLayout.setId(holder.getAdapterPosition());
         }
 
         @Override
@@ -166,9 +144,11 @@ public class FavoriteActivity extends AppCompatActivity {
         }
     }
 
-    //フッターボタン押下
+    //ヘッダーボタン押下
     public void onMenuButtonClick(View view){
         //メインメニュー画面に戻る
-        finish();
+        Intent intent = new Intent(getApplication(),MenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

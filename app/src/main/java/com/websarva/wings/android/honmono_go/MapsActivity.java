@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import static java.lang.Double.parseDouble;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -74,19 +76,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        // パーミッションチェック
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-//                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            Log.d("debug", "permission granted");
 
             mMap = googleMap;
             // 設定した緯度・経度を表示する
             mMap.setLocationSource(this);
-//            mMap.setMyLocationEnabled(true);
-//        } else {
-//            Log.d("debug", "permission error");
-//            return;
-//        }
 
         //インテントオブジェクトを取得
         Intent intent = getIntent();
@@ -149,52 +142,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("debug", "onLocationChanged");
         if (onLocationChangedListener != null) {
             onLocationChangedListener.onLocationChanged(location);
-//
-//            //Intent intent = getIntent();
-//            double lat = location.getLatitude();
-//            double lng = location.getLongitude();
-//
-//            // 中心地を指定した場所にする
-//            LatLng newLocation = new LatLng(lat, lng);
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
-//            zoomMap(lat,lng);
-//
-//            // 円を描く
-//            mMap.addCircle(new CircleOptions()
-//                    .center(newLocation)
-//                    .radius(500)
-//                    .strokeColor(Color.RED));
-//
-//            //GooglePlaceAPI取得用の非同期タスク
-//            final SearchStoreReceiver searchStoreReceiver = new SearchStoreReceiver(this);
-//            //String.valueOf(lat)
-//            //String.valueOf(lng)
-//            //クラスSearchStoreReceiverを実行
-//            searchStoreReceiver.execute(String.valueOf(lat) + "," + String.valueOf(lng));
-//            Log.d("Search1","現在地:"+ String.valueOf(lat)+ "&" + String.valueOf(lng));
         }
     }
-
-//    @Override
-//    public void onConnected(Bundle bundle) {
-//        // check permission
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-//                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            Log.d("debug", "permission granted");
-//
-//            // FusedLocationApi
-//            LocationServices.FusedLocationApi.requestLocationUpdates(
-//                    mGoogleApiClient, locationRequest, this);
-//        } else {
-//            Log.d("debug", "permission error");
-//            return;
-//        }
-//    }
-
-//    @Override
-//    public void onConnectionSuspended(int i) {
-//        Log.d("debug", "onConnectionSuspended");
-//    }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -242,10 +191,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //onPostExecuteで実行される関数
     public void resultJSON(String result){
         setStorePin(result);
+        Log.d("Search1", "マーカー立てた:" + result);
     }
 
     //条件に一致する場所にピンを立てる
     public void setStorePin(String jsonData) {
+
+        String store_place_id;
+        String storeLat;
+        String storeLng;
+        final String[] storePlaceIdList = new String[4];
+        final String[] storeLatList = new String[4];
+        final String[] storeLngList = new String[4];
 
         if (jsonData.contains("ZERO_RESULTS")) {
             Toast.makeText(MapsActivity.this, "500m範囲以内に\n日高屋がありません。", Toast.LENGTH_LONG).show();
@@ -260,29 +217,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     JSONObject openingHours = jsonObject_store.getJSONObject("opening_hours");
 
                     //店舗情報に表示するデータ
-                    final String store_name = jsonObject_store.getString("name");
-                    final String store_vicinity = jsonObject_store.getString("vicinity");
-                    final String store_place_id = jsonObject_store.getString("place_id");
-                    final String store_openNow = openingHours.getString("open_now");
-                    final String storeLat = location.getString("lat");
-                    final String storeLng = location.getString("lng");
-
-
-                    //GooglePlaceAPI取得用の非同期タスク
-                    final StoreInfoReceiver storeInfoReceiver = new StoreInfoReceiver(this);
-                    //クラスStoreInfoReceiverを実行
-                    storeInfoReceiver.execute(store_place_id);
-                    Log.d("Search1", "プレイスID:" + store_place_id);
-
+                    store_place_id = jsonObject_store.getString("place_id");
+                    storeLat = location.getString("lat");
+                    storeLng = location.getString("lng");
+                    //取得したデータをリストに格納
+                    storePlaceIdList[i] = store_place_id;
+                    storeLatList[i] = storeLat;
+                    storeLngList[i] = storeLng;
 
                     //マーカーインスタンス生成
                     MarkerOptions markerOptions = new MarkerOptions();
                     //店の位置(マーカーを表示する位置)
                     markerOptions.position(new LatLng(Double.parseDouble(storeLat), Double.parseDouble(storeLng)));
-                    Marker marker = mMap.addMarker(markerOptions);
-                    //表示する
-                     marker.showInfoWindow();
-                    Log.d("Search1", "店情報:" + i  + store_name)  ;
+                    mMap.addMarker(markerOptions);
 
                     //マーカータップ時のイベントハンドラ取得
                     mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
@@ -290,15 +237,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         //マーカータップしたら、店舗情報をポップアップで表示する
                         @Override
                         public boolean onMarkerClick(Marker marker) {
-                            Intent intent = new Intent(MapsActivity.this, StoreInformationActivity.class);
-                            intent.putExtra("store_name", store_name);
-                            intent.putExtra("store_vicinity", store_vicinity);
-                            intent.putExtra("store_place_id", store_place_id);
-                            intent.putExtra("store_openingHours", store_openNow);
-                            intent.putExtra("storeLat", storeLat);
-                            intent.putExtra("storeLng", storeLng);
 
-                            startActivity(intent);
+                            //マーカーID
+                            String marker_id = marker.getId();
+                            Log.d("Search1", "マーカーID"  + marker_id)  ;
+                            //マーカーIDごとにデータを分岐
+                            switch (marker_id) {
+                                case "m0":
+                                    Intent intent0 = new Intent(MapsActivity.this, StoreInformationActivity.class);
+                                    intent0.putExtra("store_place_id", storePlaceIdList[0]);
+                                    intent0.putExtra("storeLat", storeLatList[0]);
+                                    intent0.putExtra("storeLng", storeLngList[0]);
+                                    startActivity(intent0);
+                                    break;
+                                case "m1":
+                                    Intent intent1 = new Intent(MapsActivity.this, StoreInformationActivity.class);
+                                    intent1.putExtra("store_place_id", storePlaceIdList[1]);
+                                    intent1.putExtra("storeLat", storeLatList[1]);
+                                    intent1.putExtra("storeLng", storeLngList[1]);
+                                    startActivity(intent1);
+                                    break;
+                                case "m2":
+                                    Intent intent2 = new Intent(MapsActivity.this, StoreInformationActivity.class);
+                                    intent2.putExtra("store_place_id", storePlaceIdList[2]);
+                                    intent2.putExtra("storeLat", storeLatList[2]);
+                                    intent2.putExtra("storeLng", storeLngList[2]);
+                                    startActivity(intent2);
+                                    break;
+                                case "m3":
+                                    Intent intent3 = new Intent(MapsActivity.this, StoreInformationActivity.class);
+                                    intent3.putExtra("store_place_id", storePlaceIdList[3]);
+                                    intent3.putExtra("storeLat", storeLatList[3]);
+                                    intent3.putExtra("storeLng", storeLngList[3]);
+                                    startActivity(intent3);
+                                    break;
+                                case "m4":
+                                    Intent intent4 = new Intent(MapsActivity.this, StoreInformationActivity.class);
+                                    intent4.putExtra("store_place_id", storePlaceIdList[4]);
+                                    intent4.putExtra("storeLat", storeLatList[4]);
+                                    intent4.putExtra("storeLng", storeLngList[4]);
+                                    startActivity(intent4);
+                                    break;
+                            }
                             return false;
                         }
                     });
@@ -307,5 +287,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ex.printStackTrace();
             }
         }
+    }
+    //ヘッダーボタン押下
+    public void onMenuButtonClick(View view){
+        //メインメニュー画面に戻る
+        Intent intent = new Intent(getApplication(),MenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

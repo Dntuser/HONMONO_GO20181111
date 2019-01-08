@@ -241,8 +241,11 @@ public class SearchFromStationActivity extends AppCompatActivity implements View
             startActivity(intent);
         }
     }
+    //ヘッダーボタン押下
     public void onMenuButtonClick(View view){
         //メインメニュー画面に戻る
-        finish();
+        Intent intent = new Intent(getApplication(),MenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

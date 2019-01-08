@@ -16,11 +16,11 @@ import java.net.URL;
 
 public class StoreInfoReceiver extends AsyncTask<String,String,String> {
 
-    private MapsActivity _mapsActivity;
+    private StoreInformationActivity _storeInformaionActivity;
     //コンストラクタ、引数をフィールドに格納
-    public StoreInfoReceiver(MapsActivity mapsActivity) {
+    public StoreInfoReceiver(StoreInformationActivity storeInformationActivity) {
         super();
-        _mapsActivity = mapsActivity;
+        _storeInformaionActivity = storeInformationActivity;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class StoreInfoReceiver extends AsyncTask<String,String,String> {
     @Override
     public void onPostExecute(String result){
         //JSONを解析
-        _mapsActivity.resultJSON(result);
+        _storeInformaionActivity.resultJSON(result);
         Log.d("Search1","けっか:"+ result);
     }
 
