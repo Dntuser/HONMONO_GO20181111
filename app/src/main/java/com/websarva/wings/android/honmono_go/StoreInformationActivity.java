@@ -62,7 +62,6 @@ public class StoreInformationActivity extends AppCompatActivity {
     }
     //☆と★
     public void boolStar(String placeId) {
-        //ImageView view = findViewById(R.id.select_button);
         ImageButton ib = findViewById(R.id.select_button);
         DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -70,10 +69,8 @@ public class StoreInformationActivity extends AppCompatActivity {
         Cursor cursor = db.rawQuery(sqlselect, null);
         boolean next = cursor.moveToFirst();
         if (next) {
-            //view.setSelected(true); // -> 黄色の星に切り替わる
             ib.setSelected(true); // -> 黄色の星に切り替わる
         } else {
-            //view.setSelected(false); // -> 無色の星に切り替わる
             ib.setSelected(false); // -> 無色の星に切り替わる
         }
     }
@@ -140,7 +137,6 @@ public class StoreInformationActivity extends AppCompatActivity {
                 ib.setSelected(true); // -> 黄色の星に切り替わる
                 insertData(db, storeName, placeId, lat, lng);
                 Toast.makeText(StoreInformationActivity.this, "お気に入り登録しました。", Toast.LENGTH_LONG).show();
-                finish();
             }
         }
     }
