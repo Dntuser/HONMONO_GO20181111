@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,9 +47,9 @@ public class StoreInformationActivity extends AppCompatActivity {
         Log.d("Search1", "プレイスID:" + store_place_id);
 
         //登録ボタン
-        Button insertButton = findViewById(R.id.bt_insert);
+        ImageButton ib = findViewById(R.id.select_button);
         InsertListener insertListener = new InsertListener();
-        insertButton.setOnClickListener(insertListener);
+        ib.setOnClickListener(insertListener);
 
         //☆と★
         boolStar(store_place_id);
@@ -61,16 +62,19 @@ public class StoreInformationActivity extends AppCompatActivity {
     }
     //☆と★
     public void boolStar(String placeId) {
-        ImageView view = findViewById(R.id.select_button);
+        //ImageView view = findViewById(R.id.select_button);
+        ImageButton ib = findViewById(R.id.select_button);
         DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
         SQLiteDatabase db = helper.getWritableDatabase();
         String sqlselect = "select store_name, place_id, lat, lng from storeTable where place_id ='" + placeId + "'";
         Cursor cursor = db.rawQuery(sqlselect, null);
         boolean next = cursor.moveToFirst();
         if (next) {
-            view.setSelected(true); // -> 黄色の星に切り替わる
+            //view.setSelected(true); // -> 黄色の星に切り替わる
+            ib.setSelected(true); // -> 黄色の星に切り替わる
         } else {
-            view.setSelected(false); // -> 無色の星に切り替わる
+            //view.setSelected(false); // -> 無色の星に切り替わる
+            ib.setSelected(false); // -> 無色の星に切り替わる
         }
     }
 
@@ -116,7 +120,7 @@ public class StoreInformationActivity extends AppCompatActivity {
     private class InsertListener implements View.OnClickListener{
         @Override
         public void onClick(View view){
-
+            ImageButton ib = findViewById(R.id.select_button);
             DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
             SQLiteDatabase db = helper.getWritableDatabase();
             String storeName = Name;
@@ -131,10 +135,11 @@ public class StoreInformationActivity extends AppCompatActivity {
             Log.i("Search", "カーソル:" + cursor);
             boolean next = cursor.moveToFirst();
             if (next) {
-                Toast.makeText(StoreInformationActivity.this, "登録済店舗", Toast.LENGTH_LONG).show();
-                finish();
+                Toast.makeText(StoreInformationActivity.this, "お気に入り登録済です。", Toast.LENGTH_LONG).show();
             } else {
+                ib.setSelected(true); // -> 黄色の星に切り替わる
                 insertData(db, storeName, placeId, lat, lng);
+                Toast.makeText(StoreInformationActivity.this, "お気に入り登録しました。", Toast.LENGTH_LONG).show();
                 finish();
             }
         }
