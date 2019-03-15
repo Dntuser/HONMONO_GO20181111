@@ -28,7 +28,7 @@ public class SearchStoreReceiver extends AsyncTask<String,String,String> {
         //GooglePlacesAPIから取得したJSON文字列。店情報が格納されている
         String readDate = "";
         //URL作成
-        String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + value[0] + "&radius=500&key=";
+        String urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + value[0] + "&radius=500&key=&keyword=";
         Log.d("Search3","いどとけいど:"+ urlStr);
         //Http接続を行う
         HttpURLConnection con = null;

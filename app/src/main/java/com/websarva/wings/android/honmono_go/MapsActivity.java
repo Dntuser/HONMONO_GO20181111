@@ -214,7 +214,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for (int i = 0; i < shopList.length(); i++) {
                     JSONObject jsonObject_store = shopList.getJSONObject(i);
                     JSONObject location = jsonObject_store.getJSONObject("geometry").getJSONObject("location");
-                    JSONObject openingHours = jsonObject_store.getJSONObject("opening_hours");
 
                     //店舗情報に表示するデータ
                     store_place_id = jsonObject_store.getString("place_id");
